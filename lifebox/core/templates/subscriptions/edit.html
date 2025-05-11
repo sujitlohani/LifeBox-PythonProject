@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container d-flex justify-content-center">
+  <div class="card shadow p-4 mt-5" style="width: 100%; max-width: 500px;">
+    <h3 class="text-center mb-4">Edit Subscription</h3>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="d-grid">
+        <button type="submit" class="btn btn-primary">Update</button>
+      </div>
+    </form>
+    <div class="text-center mt-3">
+      <a href="{% url 'subscriptions' %}" class="btn btn-link">← Back to Subscriptions</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

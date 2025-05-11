@@ -1,34 +1,93 @@
 {% extends "base.html" %}
-
 {% block content %}
 
-<h2 class="mb-4">Your Dashboard</h2>
+<h2 class="mb-4">Welcome, {{ request.user.username }} 👋</h2>
 
-<h4>Documents</h4>
-<ul>
-  {% for doc in documents %}
-    <li>{{ doc.title }} - {{ doc.category }}</li>
-  {% empty %}
-    <li>No documents uploaded.</li>
-  {% endfor %}
-</ul>
+<!-- Summary Cards -->
+<div class="row mb-4">
+  <div class="col-md-4">
+    <div class="card text-white bg-primary text-center shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">Documents</h5>
+        <p class="display-6">{{ documents|length }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-white bg-success text-center shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">Subscriptions</h5>
+        <p class="display-6">{{ subscriptions|length }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-white bg-warning text-center shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">Reminders</h5>
+        <p class="display-6">{{ reminders|length }}</p>
+      </div>
+    </div>
+  </div>
+</div>
 
-<h4>Subscriptions</h4>
-<ul>
-  {% for sub in subscriptions %}
-    <li>{{ sub.name }} - ₹{{ sub.amount }} ({{ sub.billing_cycle }})</li>
-  {% empty %}
-    <li>No subscriptions found.</li>
-  {% endfor %}
-</ul>
+<!-- Feature Access -->
+<div class="row text-center mb-5">
+  <div class="col-md-4 mb-3">
+    <a href="{% url 'documents' %}" class="text-decoration-none">
+      <div class="card shadow-sm p-4">
+        <h3>📂 Vault</h3>
+        <p>View your important documents</p>
+      </div>
+    </a>
+  </div>
+  <div class="col-md-4 mb-3">
+    <a href="{% url 'subscriptions' %}" class="text-decoration-none">
+      <div class="card shadow-sm p-4">
+        <h3>💳 Subscriptions</h3>
+        <p>Track your bills and renewals</p>
+      </div>
+    </a>
+  </div>
+  <div class="col-md-4 mb-3">
+    <a href="{% url 'reminders' %}" class="text-decoration-none">
+      <div class="card shadow-sm p-4">
+        <h3>⏰ Reminders</h3>
+        <p>Never miss important dates</p>
+      </div>
+    </a>
+  </div>
+</div>
 
-<h4>Reminders</h4>
-<ul>
-  {% for rem in reminders %}
-    <li>{{ rem.title }} - Due on {{ rem.reminder_date }}</li>
-  {% empty %}
-    <li>No reminders yet.</li>
-  {% endfor %}
-</ul>
+<!-- Upcoming info -->
+<div class="row">
+  <div class="col-md-6">
+    <h4>📅 Upcoming Reminders (Next 7 Days)</h4>
+    <ul class="list-group mb-4">
+      {% for r in upcoming_reminders %}
+        <li class="list-group-item d-flex justify-content-between">
+          {{ r.title }}
+          <span>{{ r.reminder_date }}</span>
+        </li>
+      {% empty %}
+        <li class="list-group-item text-muted">No upcoming reminders.</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="col-md-6">
+    <h4>💸 Ending Subscriptions (Next 7 Days)</h4>
+    <ul class="list-group mb-4">
+      {% for s in ending_subscriptions %}
+        <li class="list-group-item d-flex justify-content-between">
+          {{ s.name }}
+          <span>{{ s.next_billing_date }}</span>
+        </li>
+      {% empty %}
+        <li class="list-group-item text-muted">No subscriptions ending soon.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
 
 {% endblock %}

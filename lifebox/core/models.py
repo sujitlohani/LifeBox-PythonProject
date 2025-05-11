@@ -45,13 +45,13 @@ class Reminder(models.Model):
     title = models.CharField(max_length=255)
     reminder_date = models.DateField()
     
-    document = models.ForeignKey(
+    linked_document = models.ForeignKey(
         Document,
         on_delete=models.SET_NULL,
         null=True,
         blank=True
     )
-    subscription = models.ForeignKey(
+    linked_subscription = models.ForeignKey(
         Subscription,
         on_delete=models.SET_NULL,
         null=True,
