@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">Your Dashboard</h2>
+
+<h4>Documents</h4>
+<ul>
+  {% for doc in documents %}
+    <li>{{ doc.title }} - {{ doc.category }}</li>
+  {% empty %}
+    <li>No documents uploaded.</li>
+  {% endfor %}
+</ul>
+
+<h4>Subscriptions</h4>
+<ul>
+  {% for sub in subscriptions %}
+    <li>{{ sub.name }} - ₹{{ sub.amount }} ({{ sub.billing_cycle }})</li>
+  {% empty %}
+    <li>No subscriptions found.</li>
+  {% endfor %}
+</ul>
+
+<h4>Reminders</h4>
+<ul>
+  {% for rem in reminders %}
+    <li>{{ rem.title }} - Due on {{ rem.reminder_date }}</li>
+  {% empty %}
+    <li>No reminders yet.</li>
+  {% endfor %}
+</ul>
+
+{% endblock %}
